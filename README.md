@@ -58,7 +58,7 @@ app.get("/api", (req, res) => {
 module.exports = app;
 ```
 ```sh
-curl -s -X GET http://localhost:8080/api/\?hi\=there
+curl -s http://localhost:8080/api/\?hi\=there
 Output should be '{"path":"/api/","query":{"hi":"there"},"ip":"::1","hello":"world"}
 ```
 
@@ -94,7 +94,7 @@ export const handle = (event: any, context: any, callback: any) => {
 	}
 }
 
-//app.ts
+// app.ts
 import express from "express";
 import * as awsServerlessExpressMiddleware from "aws-serverless-express/middleware";
 
@@ -102,21 +102,23 @@ export const app = express();
 app.set("trust proxy", true);
 app.use(awsServerlessExpressMiddleware.eventContext())
 
-app.get("/api", (req, res) => {
-	res.json({
-		path: req.path,
-		query: req.query,
-		ip: req.ip,
-		hello: "world",
-	});
+app.get("/api/hello", (req, res) => {
+	res.send("world");
+});
+
+app.get("/api/ping", (req, res) => {
+	res.send("pong");
 });
 ```
 ```sh
-curl -s -X GET http://localhost:8080/api/\?hi\=there
-Output should be '{"path":"/api/","query":{"hi":"there"},"ip":"::1","hello":"world"}
+curl -s http://localhost:8080/api/hello
+Output should be 'world'
+
+curl -s http://localhost:8080/api/ping
+Output should be 'pong'
 ```
 
-## Test
+## Test (TODO)
 ```sh
 npm run test
 ```
