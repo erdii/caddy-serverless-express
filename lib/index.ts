@@ -22,6 +22,7 @@ export interface IExpressResponse {
 	statusCode: number;
 	headers: IExpressHeaders;
 	body: string;
+	isBase64Encoded: boolean;
 	[propName: string]: any;
 }
 
@@ -32,6 +33,8 @@ export interface ICaddyResponse {
 		headers: ICaddyHeaders,
 	};
 	body: string;
+	bodyEncoding: undefined|"base64";
+	[propName: string]: any;
 }
 
 export interface ILambdaContext {
@@ -63,6 +66,16 @@ export function transformContext(context: ILambdaContext) {
 	return _context;
 }
 
+export function transformCallback(callback: (err: any, response?: ICaddyResponse) => void) {
+	return function transformedCallback(err: any, response?: IExpressResponse) {
+		if (err != null) {
+			callback(err);
+			return;
+		}
+		callback(null, transformResponse(response as any));
+	};
+}
+
 function transformHeadersIn(headers: ICaddyHeaders) {
 	const _headers = {} as IExpressHeaders;
 
@@ -91,5 +104,6 @@ function transformResponse(response: IExpressResponse): ICaddyResponse {
 			headers: transformHeadersOut(response.headers),
 		},
 		body: response.body,
+		bodyEncoding: response.isBase64Encoded ? "base64" : undefined,
 	};
 }
