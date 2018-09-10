@@ -52,6 +52,7 @@ app.get("/api", (req, res) => {
 		query: req.query,
 		ip: req.ip,
 		hello: "world",
+		headers: req.headers,
 	});
 });
 
@@ -138,6 +139,7 @@ http://localhost:8080 {
 		header_upstream X-Forwarded-For {remote}
 		header_upstream X-Forwarded-Host {hostonly}
 		header_upstream X-Forwarded-Proto {scheme}
+		header_upstream X-Secret mysecrettoken
 	}
 }
 ```
