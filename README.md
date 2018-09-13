@@ -1,5 +1,5 @@
 # caddy-serverless-express
-A Node.js module that enables [aws-serverless-express](https://github.com/awslabs/aws-serverless-express) to work with [erdii/caddy-awslambda](https://github.com/erdii/caddy-awslambda/)
+A Node.js module that enables [aws-serverless-express](https://github.com/awslabs/aws-serverless-express) to work with [coopernurse/caddy-awslambda](https://github.com/coopernurse/caddy-awslambda/)
 
 ## Installation 
 ```sh
